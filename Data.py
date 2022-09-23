@@ -1,4 +1,5 @@
 from . import WordData as wd
+import datetime 
 
 WordData = wd.WordData()
 
@@ -126,4 +127,97 @@ def getInputList():
         print('Error on getting input list')
 
 
+def saveOutput(input):
+    try:
+        file = open(f'{input}.txt')
+        if not not file.readlines():
+            for i in OutputList:
+                file.write(OutputList[i]+'\n')
+        
+        file.close()
+    except:
+        print('Error on saving output')
 
+def getOutputList(input):
+    OutputList.clear()
+    file = open(f'{input}.txt')
+
+    try:
+        if not not file.readlines():
+            for line in file.readlines():
+                if not line == '':
+                    OutputList.append(line)
+            file.close()
+    except:
+        print('Error on getting output list')
+    
+def saveHistory():
+    f = datetime.datetime().now()
+    currentDate = str(f) 
+
+    try:
+        file = open(f'{currentDate}.txt')
+        for i in HistoryList:
+            file.write(HistoryList[i] + '\n')
+        
+        file.close()
+    except:
+        print('Error on saving history')
+
+def getHistory():
+    HistoryList.clear()
+    f = datetime.datetime().now()
+    currentDate = str(f)
+    file = open(f'{currentDate}.txt')
+    try:
+        saveHistory()
+    except:
+        print('Error saving history')
+    
+    try:
+        for line in file.readlines():
+            if not line == '':
+                HistoryList.append(line)
+        file.close() 
+    except:
+        print('Error appending history')
+
+def saveThoughts():
+    f = datetime.datetime().now()
+    currentDate = str(f)
+    try:
+        file = open(currentDate + '.txt')
+
+        for i in ThoughtList:
+            file.write(ThoughtList[i] + '\n')
+        file.close()
+    except:
+        print('Error on saving thoughts')
+
+def getThoughts():
+    ThoughtList.clear()
+
+    f = datetime.datetime().now()
+    currentDate = str(f)
+    file = open(currentDate + '.txt')
+
+    try:
+        if not not file.readlines():
+            for line in file.readlines():
+                if not line == '':
+                    ThoughtList.append(line)
+            file.close()
+    except:
+        print('Error on getting thoughts')        
+
+def pullInfo(topic):
+    getInputList()
+    InformationBank.clear()
+
+    if len(InputList) > 0:
+        for i in InputList:
+            if topic in i:
+                getOutputList(i)
+                if len(OutputList) > 0:
+                    for b in OutputList:
+                        InformationBank.append(b)
